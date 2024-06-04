@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TechnologyViewController.swift
 //  NewsApp
 //
 //  Created by Даниил Сивожелезов on 04.06.2024.
@@ -7,13 +7,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+final class TechnologyViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .gray
     }
-
-
 }
-
