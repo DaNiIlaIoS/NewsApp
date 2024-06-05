@@ -18,7 +18,12 @@ class GeneralViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 50, height: 50)
+        
         let collectionView = UICollectionView(frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: view.frame.height - searchBar.frame.height), collectionViewLayout: layout)
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
         return collectionView
     }()
     
@@ -38,6 +43,8 @@ class GeneralViewController: UIViewController {
         view.addSubview(searchBar)
         view.addSubview(collectionView)
         
+        collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
+        
         setupConstraints()
     }
     
@@ -52,3 +59,21 @@ class GeneralViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionViewDataSource
+extension GeneralViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        15
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GeneralCollectionViewCell", for: indexPath) as? GeneralCollectionViewCell else { return UICollectionViewCell() }
+        
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension GeneralViewController: UICollectionViewDelegate {
+    
+}
