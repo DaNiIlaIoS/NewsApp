@@ -8,9 +8,17 @@
 import UIKit
 
 final class BusinessViewController: UIViewController {
+    // MARK: - GUI Variables
     
+    // MARK: - Properties
+    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
     }
+    
+    // MARK: - Methods
+    
+    // MARK: - Private Methods
 }
