@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		48CA7A732C10C48B00836F41 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 48CA7A722C10C48B00836F41 /* SnapKit */; };
+		48CA7A7B2C10CBC900836F41 /* GeneralCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7A7A2C10CBC900836F41 /* GeneralCollectionViewCell.swift */; };
 		48F9CCCB2C0F23DA0085532E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F9CCCA2C0F23DA0085532E /* AppDelegate.swift */; };
 		48F9CCCF2C0F23DA0085532E /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F9CCCE2C0F23DA0085532E /* GeneralViewController.swift */; };
 		48F9CCD42C0F23DC0085532E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48F9CCD32C0F23DC0085532E /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		48CA7A7A2C10CBC900836F41 /* GeneralCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewCell.swift; sourceTree = "<group>"; };
 		48F9CCC72C0F23DA0085532E /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48F9CCCA2C0F23DA0085532E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48F9CCCE2C0F23DA0085532E /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
@@ -41,6 +43,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		48CA7A742C10C96C00836F41 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				48CA7A772C10CB3500836F41 /* View */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		48CA7A752C10C97800836F41 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				48CA7A782C10CB4000836F41 /* View */,
+			);
+			path = Business;
+			sourceTree = "<group>";
+		};
+		48CA7A762C10C98000836F41 /* Technology */ = {
+			isa = PBXGroup;
+			children = (
+				48CA7A792C10CB4600836F41 /* View */,
+			);
+			path = Technology;
+			sourceTree = "<group>";
+		};
+		48CA7A772C10CB3500836F41 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				48F9CCCE2C0F23DA0085532E /* GeneralViewController.swift */,
+				48CA7A7A2C10CBC900836F41 /* GeneralCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		48CA7A782C10CB4000836F41 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				48F9CCDE2C0F2F300085532E /* BusinessViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		48CA7A792C10CB4600836F41 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				48F9CCE02C0F2F450085532E /* TechnologyViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		48F9CCBE2C0F23DA0085532E = {
 			isa = PBXGroup;
 			children = (
@@ -62,9 +113,9 @@
 			children = (
 				48F9CCCA2C0F23DA0085532E /* AppDelegate.swift */,
 				48F9CCE22C0F389F0085532E /* TabBarController.swift */,
-				48F9CCCE2C0F23DA0085532E /* GeneralViewController.swift */,
-				48F9CCDE2C0F2F300085532E /* BusinessViewController.swift */,
-				48F9CCE02C0F2F450085532E /* TechnologyViewController.swift */,
+				48CA7A742C10C96C00836F41 /* General */,
+				48CA7A752C10C97800836F41 /* Business */,
+				48CA7A762C10C98000836F41 /* Technology */,
 				48F9CCD32C0F23DC0085532E /* Assets.xcassets */,
 				48F9CCD52C0F23DC0085532E /* LaunchScreen.storyboard */,
 				48F9CCD82C0F23DC0085532E /* Info.plist */,
@@ -149,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				48F9CCE12C0F2F450085532E /* TechnologyViewController.swift in Sources */,
+				48CA7A7B2C10CBC900836F41 /* GeneralCollectionViewCell.swift in Sources */,
 				48F9CCDF2C0F2F300085532E /* BusinessViewController.swift in Sources */,
 				48F9CCCF2C0F23DA0085532E /* GeneralViewController.swift in Sources */,
 				48F9CCE32C0F389F0085532E /* TabBarController.swift in Sources */,
