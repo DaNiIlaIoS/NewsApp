@@ -43,6 +43,7 @@ final class GeneralCollectionViewCell: UICollectionViewCell {
     // MARK: - Private Methods
     private func setupUI() {
         addSubviews([imageView, blackView, titleLabel])
+
         
         setupConstraints()
     }
