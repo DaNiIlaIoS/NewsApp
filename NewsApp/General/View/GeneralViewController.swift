@@ -11,13 +11,17 @@ import SnapKit
 class GeneralViewController: UIViewController {
     // MARK: - GUI Variables
     private lazy var searchBar: UISearchBar = {
-       let searchBar = UISearchBar()
+        let searchBar = UISearchBar()
         return searchBar
     }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 50, height: 50)
+        let width = (view.frame.width - 15) / 2
+        layout.itemSize = CGSize(width: width, height: width)
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 5
+//      layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: view.frame.height - searchBar.frame.height), collectionViewLayout: layout)
         
@@ -54,7 +58,8 @@ class GeneralViewController: UIViewController {
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(5)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
@@ -75,5 +80,7 @@ extension GeneralViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension GeneralViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        navigationController?.pushViewController(NewsViewController(), animated: true)
+    }
 }
