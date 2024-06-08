@@ -14,6 +14,7 @@ final class TabBarController: UITabBarController {
         
         view.tintColor = .black
         setupViewControllers()
+        setupTabBar()
     }
     
     func setupViewControllers() {
@@ -36,8 +37,16 @@ final class TabBarController: UITabBarController {
         navigationController.tabBarItem.title = title
         navigationController.tabBarItem.image = image
         rootViewController.navigationItem.title = title
-        navigationController.navigationBar.prefersLargeTitles = true
+//        navigationController.navigationBar.prefersLargeTitles = true
         
         return navigationController
+    }
+    
+    private func setupTabBar() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        tabBar.scrollEdgeAppearance = appearance
+        
+        view.tintColor = .black
     }
 }
