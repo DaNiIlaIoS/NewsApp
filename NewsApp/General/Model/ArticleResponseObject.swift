@@ -7,9 +7,16 @@
 
 import Foundation
 
-struct ArticleResponseObject {
+struct ArticleResponseObject: Codable {
     let title: String
     let description: String
     let urlToImage: String
     let publishedAt: String
+    
+    enum CodingKeys: CodingKey {
+        case title
+        case description
+        case urlToImage
+        case publishedAt
+    }
 }

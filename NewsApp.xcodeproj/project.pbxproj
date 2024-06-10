@@ -16,6 +16,8 @@
 		48CA7AB72C15D33500836F41 /* NewsResponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7AB62C15D33500836F41 /* NewsResponseObject.swift */; };
 		48CA7AB92C15D3A500836F41 /* ArticleResponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7AB82C15D3A500836F41 /* ArticleResponseObject.swift */; };
 		48CA7ABC2C16D75600836F41 /* ArticleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7ABB2C16D75600836F41 /* ArticleCellViewModel.swift */; };
+		48CA7AC02C17087400836F41 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7ABF2C17087400836F41 /* APIManager.swift */; };
+		48CA7AC32C17089C00836F41 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7AC22C17089C00836F41 /* NetworkingError.swift */; };
 		48F9CCCB2C0F23DA0085532E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F9CCCA2C0F23DA0085532E /* AppDelegate.swift */; };
 		48F9CCCF2C0F23DA0085532E /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F9CCCE2C0F23DA0085532E /* GeneralViewController.swift */; };
 		48F9CCD42C0F23DC0085532E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48F9CCD32C0F23DC0085532E /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 		48CA7AB62C15D33500836F41 /* NewsResponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsResponseObject.swift; sourceTree = "<group>"; };
 		48CA7AB82C15D3A500836F41 /* ArticleResponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleResponseObject.swift; sourceTree = "<group>"; };
 		48CA7ABB2C16D75600836F41 /* ArticleCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCellViewModel.swift; sourceTree = "<group>"; };
+		48CA7ABF2C17087400836F41 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		48CA7AC22C17089C00836F41 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		48F9CCC72C0F23DA0085532E /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48F9CCCA2C0F23DA0085532E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48F9CCCE2C0F23DA0085532E /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +147,34 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		48CA7ABD2C16DEBE00836F41 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				48F9CCCA2C0F23DA0085532E /* AppDelegate.swift */,
+				48F9CCE22C0F389F0085532E /* TabBarController.swift */,
+				48F9CCD52C0F23DC0085532E /* LaunchScreen.storyboard */,
+				48F9CCD82C0F23DC0085532E /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		48CA7ABE2C16DEF500836F41 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				48F9CCD32C0F23DC0085532E /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		48CA7AC12C17088000836F41 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				48CA7ABF2C17087400836F41 /* APIManager.swift */,
+				48CA7AC22C17089C00836F41 /* NetworkingError.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		48F9CCBE2C0F23DA0085532E = {
 			isa = PBXGroup;
 			children = (
@@ -162,16 +194,14 @@
 		48F9CCC92C0F23DA0085532E /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
-				48F9CCCA2C0F23DA0085532E /* AppDelegate.swift */,
-				48F9CCE22C0F389F0085532E /* TabBarController.swift */,
+				48CA7ABD2C16DEBE00836F41 /* App */,
+				48CA7AC12C17088000836F41 /* Networking */,
 				48CA7A742C10C96C00836F41 /* General */,
 				48CA7A752C10C97800836F41 /* Business */,
 				48CA7A762C10C98000836F41 /* Technology */,
 				48CA7A7C2C1194D800836F41 /* News */,
 				48CA7A7F2C11988800836F41 /* Extensions */,
-				48F9CCD32C0F23DC0085532E /* Assets.xcassets */,
-				48F9CCD52C0F23DC0085532E /* LaunchScreen.storyboard */,
-				48F9CCD82C0F23DC0085532E /* Info.plist */,
+				48CA7ABE2C16DEF500836F41 /* Resource */,
 			);
 			path = NewsApp;
 			sourceTree = "<group>";
@@ -256,8 +286,10 @@
 				48F9CCE12C0F2F450085532E /* TechnologyViewController.swift in Sources */,
 				48CA7A7B2C10CBC900836F41 /* GeneralCollectionViewCell.swift in Sources */,
 				48F9CCDF2C0F2F300085532E /* BusinessViewController.swift in Sources */,
+				48CA7AC32C17089C00836F41 /* NetworkingError.swift in Sources */,
 				48CA7A812C11989F00836F41 /* UIView+Ex.swift in Sources */,
 				48F9CCCF2C0F23DA0085532E /* GeneralViewController.swift in Sources */,
+				48CA7AC02C17087400836F41 /* APIManager.swift in Sources */,
 				48CA7ABC2C16D75600836F41 /* ArticleCellViewModel.swift in Sources */,
 				48CA7A7E2C1194ED00836F41 /* NewsViewController.swift in Sources */,
 				48F9CCE32C0F389F0085532E /* TabBarController.swift in Sources */,
@@ -410,7 +442,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TUPKULQZ9B;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = NewsApp/Info.plist;
+				INFOPLIST_FILE = NewsApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -442,7 +474,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TUPKULQZ9B;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = NewsApp/Info.plist;
+				INFOPLIST_FILE = NewsApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";

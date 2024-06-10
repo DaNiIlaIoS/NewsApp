@@ -10,6 +10,7 @@ import Foundation
 protocol GeneralViewModelProtocol {
     var reloadData: (() -> Void)? { get set }
     var numberOfCells: Int { get }
+    var showError: ((String) -> Void)? { get set }
     
     func getArticle(for row: Int) -> ArticleCellViewModel
 }
@@ -17,13 +18,16 @@ protocol GeneralViewModelProtocol {
 final class GeneralViewModel: GeneralViewModelProtocol {
     // MARK: - Properties
     var reloadData: (() -> Void)?
+    var showError: ((String) -> Void)?
     var numberOfCells: Int {
         articles.count
     }
     
     private var articles: [ArticleResponseObject] = [] {
         didSet {
-            reloadData?()
+            DispatchQueue.main.async {
+                self.reloadData?()
+            }
         }
     }
     
@@ -40,8 +44,16 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     
     // MARK: - Private Methods
     private func loadData() {
-        // TODO: LoadData
-        setupMockObjects()
+        APIManager.getNews { [weak self] result in
+            switch result {
+            case .success(let articles):
+                self?.articles = articles
+            case .failure(let error):
+                DispatchQueue.main.asyncAndWait {
+                    self?.showError?(error.localizedDescription)
+                }
+            }
+        }
     }
     
     private func setupMockObjects() {
