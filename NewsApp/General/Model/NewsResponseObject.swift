@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct NewsResponseObject {
-    let totalResult: Int
-    var article: [NewsResponseObject]
+struct NewsResponseObject: Codable {
+    let totalResults: Int
+    var articles: [ArticleResponseObject]
+    
+    enum CodingKeys: CodingKey {
+        case totalResults
+        case articles
+    }
 }
