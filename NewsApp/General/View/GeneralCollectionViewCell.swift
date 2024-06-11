@@ -11,8 +11,9 @@ import SnapKit
 final class GeneralCollectionViewCell: UICollectionViewCell {
     // MARK: - GUI Variables
     private lazy var imageView: UIImageView = {
-       let image = UIImageView()
-        image.image = UIImage(named: "image") ?? UIImage.add
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.layer.masksToBounds = true
         return image
     }()
     
@@ -43,28 +44,35 @@ final class GeneralCollectionViewCell: UICollectionViewCell {
     // MARK: - Methods
     func set(article: ArticleCellViewModel) {
         titleLabel.text = article.title
+        
+        if let data = article.imageData,
+           let image = UIImage(data: data) {
+            imageView.image = image
+        } else {
+            imageView.image = UIImage(named: "image")
+        }
     }
-    
-    // MARK: - Private Methods
-    private func setupUI() {
-        addSubviews([imageView, blackView, titleLabel])
-
-        setupConstraints()
-    }
-    
-    private func setupConstraints() {
-        imageView.snp.makeConstraints { make in
-            make.size.edges.equalToSuperview()
+        
+        // MARK: - Private Methods
+        private func setupUI() {
+            addSubviews([imageView, blackView, titleLabel])
+            
+            setupConstraints()
         }
         
-        blackView.snp.makeConstraints { make in
-            make.bottom.leading.trailing.equalToSuperview()
-            make.height.equalTo(50)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.top.bottom.equalTo(blackView)
-            make.leading.trailing.equalTo(blackView).offset(5)
+        private func setupConstraints() {
+            imageView.snp.makeConstraints { make in
+                make.size.edges.equalToSuperview()
+            }
+            
+            blackView.snp.makeConstraints { make in
+                make.bottom.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+            }
+            
+            titleLabel.snp.makeConstraints { make in
+                make.top.bottom.equalTo(blackView)
+                make.leading.trailing.equalTo(blackView).offset(5)
+            }
         }
     }
-}

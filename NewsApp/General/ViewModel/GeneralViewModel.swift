@@ -9,6 +9,7 @@ import Foundation
 
 protocol GeneralViewModelProtocol {
     var reloadData: (() -> Void)? { get set }
+    var reloadCell: ((Int) -> Void)? { get set }
     var numberOfCells: Int { get }
     var showError: ((String) -> Void)? { get set }
     
@@ -18,12 +19,14 @@ protocol GeneralViewModelProtocol {
 final class GeneralViewModel: GeneralViewModelProtocol {
     // MARK: - Properties
     var reloadData: (() -> Void)?
+    var reloadCell: ((Int) -> Void)?
+    
     var showError: ((String) -> Void)?
     var numberOfCells: Int {
         articles.count
     }
     
-    private var articles: [ArticleResponseObject] = [] {
+    private var articles: [ArticleCellViewModel] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.reloadData?()
@@ -38,43 +41,53 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     
     // MARK: - Methods
     func getArticle(for row: Int) -> ArticleCellViewModel {
-        let article = articles[row]
-        return ArticleCellViewModel(article: article)
+        return articles[row]
     }
     
     // MARK: - Private Methods
     private func loadData() {
+        print(#function)
         APIManager.getNews { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let articles):
-                self?.articles = articles
+                self.articles = self.convertToCellViewModel(articles)
+                self.loadImage()
             case .failure(let error):
                 DispatchQueue.main.asyncAndWait {
-                    self?.showError?(error.localizedDescription)
+                    self.showError?(error.localizedDescription)
                 }
             }
         }
     }
     
+    private func loadImage() {
+        // TODO: get image
+//        guard let url = URL(string: articles[row].urlToImage),
+//              let data = try? Data(contentsOf: url)else { return }
+        print(#function)
+        for (index, article) in articles.enumerated() {
+            APIManager.getImageData(url: article.urlToImage) { [weak self] result in
+                DispatchQueue.main.asyncAndWait {
+                    switch result {
+                    case .success(let data):
+                        self?.articles[index].imageData = data
+                        self?.reloadCell?(index)
+                    case .failure(let error):
+                        self?.showError?(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func convertToCellViewModel(_ articles: [ArticleResponseObject]) -> [ArticleCellViewModel] {
+        return articles.map { ArticleCellViewModel(article: $0) }
+    }
+    
     private func setupMockObjects() {
-        articles = [ArticleResponseObject(title: "First title",
-                                          description: "First object description in the mock object",
-                                          urlToImage: "...", publishedAt: "12.04.2017"),
-                    ArticleResponseObject(title: "Second title",
-                                          description: "Second object description in the mock object",
-                                          urlToImage: "...",
-                                          publishedAt: "12.04.2017"),
-                    ArticleResponseObject(title: "Third title",
-                                          description: "Third object description in the mock object",
-                                          urlToImage: "...",
-                                          publishedAt: "12.04.2017"),
-                    ArticleResponseObject(title: "Fourth title",
-                                          description: "Fourth object description in the mock object",
-                                          urlToImage: "...",
-                                          publishedAt: "12.04.2017"),
-                    ArticleResponseObject(title: "Fifth title",
-                                          description: "Fifth object description in the mock object",
-                                          urlToImage: "...",
-                                          publishedAt: "12.04.2017")]
+        articles = [ArticleCellViewModel(article: ArticleResponseObject(title: "First title",
+                                                                        description: "First object description in the mock object",
+                                                                        urlToImage: "...", publishedAt: "12.04.2017"))]
     }
 }
