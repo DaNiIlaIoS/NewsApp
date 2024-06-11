@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		487F42212C18428C00B8887F /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487F42202C18428C00B8887F /* NewsViewModel.swift */; };
 		48CA7A7B2C10CBC900836F41 /* GeneralCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7A7A2C10CBC900836F41 /* GeneralCollectionViewCell.swift */; };
 		48CA7A7E2C1194ED00836F41 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7A7D2C1194ED00836F41 /* NewsViewController.swift */; };
 		48CA7A812C11989F00836F41 /* UIView+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CA7A802C11989F00836F41 /* UIView+Ex.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		487F42202C18428C00B8887F /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		48CA7A7A2C10CBC900836F41 /* GeneralCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewCell.swift; sourceTree = "<group>"; };
 		48CA7A7D2C1194ED00836F41 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		48CA7A802C11989F00836F41 /* UIView+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ex.swift"; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				48CA7A7D2C1194ED00836F41 /* NewsViewController.swift */,
+				487F42202C18428C00B8887F /* NewsViewModel.swift */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -197,9 +200,9 @@
 				48CA7ABD2C16DEBE00836F41 /* App */,
 				48CA7AC12C17088000836F41 /* Networking */,
 				48CA7A742C10C96C00836F41 /* General */,
+				48CA7A7C2C1194D800836F41 /* News */,
 				48CA7A752C10C97800836F41 /* Business */,
 				48CA7A762C10C98000836F41 /* Technology */,
-				48CA7A7C2C1194D800836F41 /* News */,
 				48CA7A7F2C11988800836F41 /* Extensions */,
 				48CA7ABE2C16DEF500836F41 /* Resource */,
 			);
@@ -289,6 +292,7 @@
 				48CA7AC32C17089C00836F41 /* NetworkingError.swift in Sources */,
 				48CA7A812C11989F00836F41 /* UIView+Ex.swift in Sources */,
 				48F9CCCF2C0F23DA0085532E /* GeneralViewController.swift in Sources */,
+				487F42212C18428C00B8887F /* NewsViewModel.swift in Sources */,
 				48CA7AC02C17087400836F41 /* APIManager.swift in Sources */,
 				48CA7ABC2C16D75600836F41 /* ArticleCellViewModel.swift in Sources */,
 				48CA7A7E2C1194ED00836F41 /* NewsViewController.swift in Sources */,

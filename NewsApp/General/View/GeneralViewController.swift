@@ -37,9 +37,8 @@ class GeneralViewController: UIViewController {
     // MARK: - Life Cycle
     init(viewModel: GeneralViewModelProtocol) {
         self.viewModel = viewModel
-        
         super.init(nibName: nil, bundle: nil)
-        setupViewModel()
+        self.setupViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -58,6 +57,9 @@ class GeneralViewController: UIViewController {
     private func setupViewModel() {
         viewModel.reloadData = { [weak self] in
             self?.collectionView.reloadData()
+        }
+        viewModel.reloadCell = { [weak self] row in
+            self?.collectionView.reloadItems(at: [IndexPath(item: row, section: 0)])
         }
         viewModel.showError = { error in
             // TODO: Alert Controller
@@ -99,7 +101,7 @@ extension GeneralViewController: UICollectionViewDataSource {
         
         let article = viewModel.getArticle(for: indexPath.row)
         cell.set(article: article)
-        
+        print(#function)
         return cell
     }
 }
@@ -107,6 +109,7 @@ extension GeneralViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension GeneralViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.pushViewController(NewsViewController(), animated: true)
+        let article = viewModel.getArticle(for: indexPath.row)
+        navigationController?.pushViewController(NewsViewController(viewModel: NewsViewModel(article: article)), animated: true)
     }
 }

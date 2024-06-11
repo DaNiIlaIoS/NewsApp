@@ -11,10 +11,13 @@ struct ArticleCellViewModel {
     let title: String
     let description: String
     let publishedAt: String
+    let urlToImage: String
+    var imageData: Data?
     
     init(article: ArticleResponseObject) {
         title = article.title
         description = article.description
         publishedAt = article.publishedAt
+        urlToImage = article.urlToImage
     }
 }
