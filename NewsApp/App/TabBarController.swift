@@ -19,25 +19,25 @@ final class TabBarController: UITabBarController {
     
     func setupViewControllers() {
         viewControllers = [setupNavigationController(rootViewController: GeneralViewController(viewModel: GeneralViewModel()),
-                                                   title: "General",
-                                                   image: UIImage(systemName: "newspaper") ?? UIImage.add),
-                               setupNavigationController(rootViewController: BusinessViewController(),
-                                                   title: "Business",
-                                                   image: UIImage(systemName: "briefcase") ?? UIImage.add),
-                               setupNavigationController(rootViewController: TechnologyViewController(),
-                                                   title: "Technology",
-                                                   image: UIImage(systemName: "gyroscope") ?? UIImage.add)]
+                                                     title: "General",
+                                                     image: UIImage(systemName: "newspaper") ?? UIImage.add),
+                           setupNavigationController(rootViewController: BusinessViewController(viewModel: BusinessViewModel()),
+                                                     title: "Business",
+                                                     image: UIImage(systemName: "briefcase") ?? UIImage.add),
+                           setupNavigationController(rootViewController: TechnologyViewController(),
+                                                     title: "Technology",
+                                                     image: UIImage(systemName: "gyroscope") ?? UIImage.add)]
     }
     
     func setupNavigationController(rootViewController: UIViewController,
-                             title: String,
-                             image: UIImage) -> UIViewController {
+                                   title: String,
+                                   image: UIImage) -> UIViewController {
         
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.tabBarItem.title = title
         navigationController.tabBarItem.image = image
         rootViewController.navigationItem.title = title
-//        navigationController.navigationBar.prefersLargeTitles = true
+        //        navigationController.navigationBar.prefersLargeTitles = true
         
         return navigationController
     }

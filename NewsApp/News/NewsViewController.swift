@@ -21,7 +21,7 @@ final class NewsViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let image = UIImageView()
-        
+        image.contentMode = .scaleAspectFill
         return image
     }()
     

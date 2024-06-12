@@ -9,8 +9,8 @@ import Foundation
 
 struct ArticleResponseObject: Codable {
     let title: String
-    let description: String
-    let urlToImage: String
+    let description: String?
+    let urlToImage: String?
     let publishedAt: String
     
     enum CodingKeys: CodingKey {

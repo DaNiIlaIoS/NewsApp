@@ -1,32 +1,32 @@
 //
-//  GeneralViewModel.swift
+//  BusinessViewModel.swift
 //  NewsApp
 //
-//  Created by Даниил Сивожелезов on 09.06.2024.
+//  Created by Даниил Сивожелезов on 11.06.2024.
 //
 
 import Foundation
 
-protocol GeneralViewModelProtocol {
+protocol BusinessViewModelProtocol {
     var reloadData: (() -> Void)? { get set }
     var reloadCell: ((Int) -> Void)? { get set }
-    var numberOfCells: Int { get }
     var showError: ((String) -> Void)? { get set }
+    var numberOfCells: Int { get }
     
+    func loadData()
     func getArticle(for row: Int) -> ArticleCellViewModel
 }
 
-final class GeneralViewModel: GeneralViewModelProtocol {
+final class BusinessViewModel: BusinessViewModelProtocol {
     // MARK: - Properties
     var reloadData: (() -> Void)?
     var reloadCell: ((Int) -> Void)?
-    
     var showError: ((String) -> Void)?
-    var numberOfCells: Int {
-        articles.count
-    }
     
-    private var articles: [ArticleCellViewModel] = [] {
+    var numberOfCells: Int {
+        return articles.count
+    }
+    var articles: [ArticleCellViewModel] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.reloadData?()
@@ -35,23 +35,22 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     }
     
     // MARK: - Initialization
-    init() {
-        loadData()
-    }
+//    init() {
+//        loadData()
+//    }
     
     // MARK: - Methods
     func getArticle(for row: Int) -> ArticleCellViewModel {
         return articles[row]
     }
     
-    // MARK: - Private Methods
-    private func loadData() {
-        print(#function)
-        APIManager.getNews(theme: .general) { [weak self] result in
+    func loadData() {
+        APIManager.getNews(theme: .business) { [weak self] result in
             guard let self = self else { return }
+            
             switch result {
-            case .success(let articles):
-                self.articles = self.convertToCellViewModel(articles)
+            case .success(let article):
+                self.articles = self.convertToCellViewModel(articles: article)
                 self.loadImage()
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -61,11 +60,11 @@ final class GeneralViewModel: GeneralViewModelProtocol {
         }
     }
     
+    private func convertToCellViewModel(articles: [ArticleResponseObject]) -> [ArticleCellViewModel] {
+        return articles.map { ArticleCellViewModel(article: $0) }
+    }
+    
     private func loadImage() {
-        // TODO: get image
-//        guard let url = URL(string: articles[row].urlToImage),
-//              let data = try? Data(contentsOf: url)else { return }
-        print(#function)
         for (index, article) in articles.enumerated() {
             APIManager.getImageData(url: article.urlToImage) { [weak self] result in
                 DispatchQueue.main.async {
@@ -80,14 +79,6 @@ final class GeneralViewModel: GeneralViewModelProtocol {
             }
         }
     }
-    
-    private func convertToCellViewModel(_ articles: [ArticleResponseObject]) -> [ArticleCellViewModel] {
-        return articles.map { ArticleCellViewModel(article: $0) }
-    }
-    
-    private func setupMockObjects() {
-        articles = [ArticleCellViewModel(article: ArticleResponseObject(title: "First title",
-                                                                        description: "First object description in the mock object",
-                                                                        urlToImage: "...", publishedAt: "12.04.2017"))]
-    }
 }
+
+
