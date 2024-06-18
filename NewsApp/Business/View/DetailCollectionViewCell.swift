@@ -19,7 +19,6 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Title here"
         label.font = .boldSystemFont(ofSize: 16)
         label.numberOfLines = 2
         return label
@@ -27,7 +26,6 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Description for the text should be here. Please remove this mock text"
         label.font = .systemFont(ofSize: 14)
         label.textColor = .gray
         label.numberOfLines = 2
