@@ -50,6 +50,7 @@ final class APIManager {
                                        completion: (Result<[ArticleResponseObject], Error>) -> ()) {
         if let error = error {
             completion(.failure(NetworkingError.networkingError(error)))
+            
         } else if let data = data {
             let json = try? JSONSerialization.jsonObject(with: data, options: [])
             print(json ?? "")
@@ -61,6 +62,7 @@ final class APIManager {
             } catch let decodeError {
                 completion(.failure(decodeError))
             }
+            
         } else {
             completion(.failure(NetworkingError.unknownError))
         }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ArticleCellViewModel {
+final class ArticleCellViewModel: TableCollectionViewProtocol {
     let title: String
     let description: String
     let publishedAt: String
