@@ -85,15 +85,15 @@ class BusinessViewController: UIViewController {
 extension BusinessViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        viewModel.articles.count
+        viewModel.sections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.articles[section].items.count
+        viewModel.sections[section].items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let article = viewModel.articles[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return UICollectionViewCell() }
+        guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return UICollectionViewCell() }
         
         if indexPath.section == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GeneralCollectionViewCell", for: indexPath) as? GeneralCollectionViewCell else { return UICollectionViewCell()}
@@ -111,8 +111,14 @@ extension BusinessViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension BusinessViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let article = viewModel.articles[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return }
+        guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return }
         navigationController?.pushViewController(NewsViewController(viewModel: NewsViewModel(article: article)), animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == (viewModel.sections[1].items.count - 15) {
+            viewModel.loadData()
+        }
     }
 }
 

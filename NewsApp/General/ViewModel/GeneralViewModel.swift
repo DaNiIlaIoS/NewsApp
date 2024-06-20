@@ -47,7 +47,7 @@ final class GeneralViewModel: GeneralViewModelProtocol {
     // MARK: - Private Methods
     private func loadData() {
         print(#function)
-        APIManager.getNews(theme: .general) { [weak self] result in
+        APIManager.getNews(theme: .general, page: 1) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let articles):
