@@ -19,8 +19,10 @@ final class APIManager {
     private static let path = "top-headlines"
     
     // MARK: - Create url path and make request
-    static func getNews(theme: Theme, completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
-        let stringUrl = baseUrl + path + "?category=\(theme.rawValue)&language=en" + "&apiKey=\(apiKey)"
+    static func getNews(theme: Theme,
+                        page: Int,
+                        completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
+        let stringUrl = baseUrl + path + "?category=\(theme.rawValue)&country=us&page=\(page)" + "&apiKey=\(apiKey)"
         
         guard let url = URL(string: stringUrl) else { return }
         
