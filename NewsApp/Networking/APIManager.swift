@@ -22,7 +22,7 @@ final class APIManager {
     static func getNews(theme: Theme,
                         page: Int,
                         completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
-        let stringUrl = baseUrl + path + "?category=\(theme.rawValue)&country=us&page=\(page)" + "&apiKey=\(apiKey)"
+        let stringUrl = baseUrl + path + "?category=\(theme.rawValue)&language=en&page=\(page)" + "&apiKey=\(apiKey)"
         
         guard let url = URL(string: stringUrl) else { return }
         
