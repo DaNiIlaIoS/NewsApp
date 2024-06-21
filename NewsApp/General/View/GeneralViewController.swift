@@ -12,6 +12,8 @@ final class GeneralViewController: UIViewController {
     // MARK: - GUI Variables
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
+        searchBar.delegate = self
+        searchBar.showsCancelButton = true
         return searchBar
     }()
     
@@ -123,5 +125,12 @@ extension GeneralViewController: UICollectionViewDelegate {
             debugPrint(#function)
             viewModel.loadData()
         }
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension GeneralViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
