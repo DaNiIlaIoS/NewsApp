@@ -72,7 +72,7 @@ final class TechnologyCollectionViewCell: UICollectionViewCell {
     
     private func setupConstraints() {
         imageView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview().inset(5)
             make.height.equalTo(self.frame.width)
             
         }
@@ -90,7 +90,7 @@ final class TechnologyCollectionViewCell: UICollectionViewCell {
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(edgeInset)
             make.leading.trailing.equalToSuperview().inset(5)
-            make.bottom.equalToSuperview().inset(edgeInset)
+//            make.bottom.equalToSuperview().inset(edgeInset)
         }
     }
 }
