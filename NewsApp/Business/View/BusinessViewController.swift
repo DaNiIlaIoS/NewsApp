@@ -47,7 +47,7 @@ class BusinessViewController: UIViewController {
         collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "DetailCollectionViewCell")
         
-        viewModel.loadData()
+        viewModel.loadData(searchText: nil)
     }
     
     // MARK: - Methods
@@ -120,7 +120,7 @@ extension BusinessViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         if indexPath.row == (viewModel.sections[1].items.count - 12) {
-            viewModel.loadData()
+            viewModel.loadData(searchText: nil)
         }
     }
 }

@@ -9,10 +9,10 @@ import Foundation
 
 final class GeneralViewModel: NewsListViewModel {
     // MARK: - Private Methods
-    override func loadData() {
-        super.loadData()
+    override func loadData(searchText: String?) {
+        super.loadData(searchText: searchText)
         
-        APIManager.getNews(theme: .general, page: page) { [weak self] result in
+        APIManager.getNews(theme: .general, page: page, searchText: searchText) { [weak self] result in
             self?.handleResult(result)
         }
     }

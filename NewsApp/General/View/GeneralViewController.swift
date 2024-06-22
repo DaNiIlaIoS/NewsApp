@@ -13,7 +13,6 @@ final class GeneralViewController: UIViewController {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.delegate = self
-        searchBar.showsCancelButton = true
         return searchBar
     }()
     
@@ -23,7 +22,7 @@ final class GeneralViewController: UIViewController {
         layout.itemSize = CGSize(width: width, height: width)
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 5
-//      layout.scrollDirection = .horizontal
+        //      layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: view.frame.height - searchBar.frame.height), collectionViewLayout: layout)
         
@@ -35,6 +34,7 @@ final class GeneralViewController: UIViewController {
     
     // MARK: - Properties
     private var viewModel: NewsListViewModelProtocol
+    private var isKeyboardVisible = false
     
     // MARK: - Life Cycle
     init(viewModel: NewsListViewModelProtocol) {
@@ -53,7 +53,18 @@ final class GeneralViewController: UIViewController {
         
         collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
         
-        viewModel.loadData()
+        viewModel.loadData(searchText: nil)
+        hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        registerForKeyboardNotification()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unregisterForKeyboardNotification()
     }
     
     // MARK: - Private Methods
@@ -123,8 +134,12 @@ extension GeneralViewController: UICollectionViewDelegate {
                         forItemAt indexPath: IndexPath) {
         if indexPath.row == (viewModel.sections[indexPath.section].items.count - 12) {
             debugPrint(#function)
-            viewModel.loadData()
+            viewModel.loadData(searchText: searchBar.text)
         }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        hideKeyboard()
     }
 }
 
@@ -132,5 +147,48 @@ extension GeneralViewController: UICollectionViewDelegate {
 extension GeneralViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        guard let text = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        viewModel.loadData(searchText: text)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            viewModel.loadData(searchText: nil)
+        }
+    }
+}
+
+// MARK: - Keyboard Handling
+extension GeneralViewController {
+    
+    private func hideKeyboardWhenTappedAround() {
+        let recognize = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        recognize.cancelsTouchesInView = false
+        collectionView.addGestureRecognizer(recognize)
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow() {
+        isKeyboardVisible = true
+        print("Клавиатура видна")
+    }
+    
+    @objc func keyboardWillHide() {
+        isKeyboardVisible = false
+        print("Клавиатура скрыта")
+    }
+    
+    func unregisterForKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
