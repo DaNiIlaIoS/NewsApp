@@ -8,10 +8,11 @@
 import UIKit
 import SnapKit
 
-class GeneralViewController: UIViewController {
+final class GeneralViewController: UIViewController {
     // MARK: - GUI Variables
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
+        searchBar.delegate = self
         return searchBar
     }()
     
@@ -21,7 +22,7 @@ class GeneralViewController: UIViewController {
         layout.itemSize = CGSize(width: width, height: width)
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 5
-//      layout.scrollDirection = .horizontal
+        //      layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: view.frame.height - searchBar.frame.height), collectionViewLayout: layout)
         
@@ -32,10 +33,11 @@ class GeneralViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    private var viewModel: GeneralViewModelProtocol
+    private var viewModel: NewsListViewModelProtocol
+    private var isKeyboardVisible = false
     
     // MARK: - Life Cycle
-    init(viewModel: GeneralViewModelProtocol) {
+    init(viewModel: NewsListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.setupViewModel()
@@ -47,19 +49,31 @@ class GeneralViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
+        
+        collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
+        
+        viewModel.loadData(searchText: nil)
+        hideKeyboardWhenTappedAround()
     }
     
-    // MARK: - Methods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        registerForKeyboardNotification()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unregisterForKeyboardNotification()
+    }
     
     // MARK: - Private Methods
     private func setupViewModel() {
         viewModel.reloadData = { [weak self] in
             self?.collectionView.reloadData()
         }
-        viewModel.reloadCell = { [weak self] row in
-            self?.collectionView.reloadItems(at: [IndexPath(item: row, section: 0)])
+        viewModel.reloadCell = { [weak self] indexPath in
+            self?.collectionView.reloadItems(at: [indexPath])
         }
         viewModel.showError = { error in
             // TODO: Alert Controller
@@ -71,8 +85,6 @@ class GeneralViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(collectionView)
-        
-        collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
         
         setupConstraints()
     }
@@ -91,25 +103,92 @@ class GeneralViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 extension GeneralViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewModel.sections.count
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.numberOfCells
+        viewModel.sections[section].items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GeneralCollectionViewCell", for: indexPath) as? GeneralCollectionViewCell else { return UICollectionViewCell() }
+        guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GeneralCollectionViewCell", for: indexPath) as? GeneralCollectionViewCell else { return UICollectionViewCell() }
         
-        let article = viewModel.getArticle(for: indexPath.row)
         cell.set(article: article)
-        print(#function)
         return cell
     }
 }
 
 // MARK: - UICollectionViewDelegate
 extension GeneralViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let article = viewModel.getArticle(for: indexPath.row)
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return }
         navigationController?.pushViewController(NewsViewController(viewModel: NewsViewModel(article: article)), animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if indexPath.row == (viewModel.sections[indexPath.section].items.count - 12) {
+            debugPrint(#function)
+            viewModel.loadData(searchText: searchBar.text)
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        hideKeyboard()
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension GeneralViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        guard let text = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        viewModel.loadData(searchText: text)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            viewModel.loadData(searchText: nil)
+        }
+    }
+}
+
+// MARK: - Keyboard Handling
+extension GeneralViewController {
+    
+    private func hideKeyboardWhenTappedAround() {
+        let recognize = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        recognize.cancelsTouchesInView = false
+        collectionView.addGestureRecognizer(recognize)
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow() {
+        isKeyboardVisible = true
+        print("Клавиатура видна")
+    }
+    
+    @objc func keyboardWillHide() {
+        isKeyboardVisible = false
+        print("Клавиатура скрыта")
+    }
+    
+    func unregisterForKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }

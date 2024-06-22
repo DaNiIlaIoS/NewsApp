@@ -27,10 +27,10 @@ class BusinessViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    private var viewModel: BusinessViewModelProtocol
+    private var viewModel: NewsListViewModelProtocol
     
     // MARK: - Life Cycle
-    init(viewModel: BusinessViewModelProtocol) {
+    init(viewModel: NewsListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.setupViewModel()
@@ -47,7 +47,7 @@ class BusinessViewController: UIViewController {
         collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
         collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: "DetailCollectionViewCell")
         
-        viewModel.loadData()
+        viewModel.loadData(searchText: nil)
     }
     
     // MARK: - Methods
@@ -110,14 +110,17 @@ extension BusinessViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension BusinessViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
         guard let article = viewModel.sections[indexPath.section].items[indexPath.row] as? ArticleCellViewModel else { return }
         navigationController?.pushViewController(NewsViewController(viewModel: NewsViewModel(article: article)), animated: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == (viewModel.sections[1].items.count - 15) {
-            viewModel.loadData()
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if indexPath.row == (viewModel.sections[1].items.count - 12) {
+            viewModel.loadData(searchText: nil)
         }
     }
 }
