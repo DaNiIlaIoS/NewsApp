@@ -52,27 +52,27 @@ final class GeneralCollectionViewCell: UICollectionViewCell {
             imageView.image = UIImage(named: "image")
         }
     }
+    
+    // MARK: - Private Methods
+    private func setupUI() {
+        addSubviews([imageView, blackView, titleLabel])
         
-        // MARK: - Private Methods
-        private func setupUI() {
-            addSubviews([imageView, blackView, titleLabel])
-            
-            setupConstraints()
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        imageView.snp.makeConstraints { make in
+            make.size.edges.equalToSuperview()
         }
         
-        private func setupConstraints() {
-            imageView.snp.makeConstraints { make in
-                make.size.edges.equalToSuperview()
-            }
-            
-            blackView.snp.makeConstraints { make in
-                make.bottom.leading.trailing.equalToSuperview()
-                make.height.equalTo(50)
-            }
-            
-            titleLabel.snp.makeConstraints { make in
-                make.top.bottom.equalTo(blackView)
-                make.leading.trailing.equalTo(blackView).offset(5)
-            }
+        blackView.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.bottom.equalTo(blackView)
+            make.leading.trailing.equalTo(blackView).offset(5)
         }
     }
+}
