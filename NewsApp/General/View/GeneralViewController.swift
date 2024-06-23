@@ -75,10 +75,17 @@ final class GeneralViewController: UIViewController {
         viewModel.reloadCell = { [weak self] indexPath in
             self?.collectionView.reloadItems(at: [indexPath])
         }
-        viewModel.showError = { error in
-            // TODO: Alert Controller
+        viewModel.showError = { [weak self] error in
+            self?.showAlert(message: error)
             print(error)
         }
+    }
+    
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(okAction)
+        present(alertController, animated: true)
     }
     
     private func setupUI() {
@@ -132,7 +139,7 @@ extension GeneralViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        if indexPath.row == (viewModel.sections[indexPath.section].items.count - 12) {
+        if indexPath.row == (viewModel.sections[indexPath.section].items.count - 15) {
             debugPrint(#function)
             viewModel.loadData(searchText: searchBar.text)
         }

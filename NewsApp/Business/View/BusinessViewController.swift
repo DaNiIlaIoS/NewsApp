@@ -60,10 +60,17 @@ class BusinessViewController: UIViewController {
         viewModel.reloadCell = { [weak self] indexPath in
             self?.collectionView.reloadItems(at: [indexPath])
         }
-        viewModel.showError = { error in
-            // TODO: Alert Controller
+        viewModel.showError = { [weak self] error in
+            self?.showAlert(message: error)
             print(error)
         }
+    }
+    
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(okAction)
+        present(alertController, animated: true)
     }
     
     private func setupUI() {
