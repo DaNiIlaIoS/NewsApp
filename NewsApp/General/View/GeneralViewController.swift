@@ -24,7 +24,7 @@ final class GeneralViewController: UIViewController {
         layout.minimumInteritemSpacing = 5
         //      layout.scrollDirection = .horizontal
         
-        let collectionView = UICollectionView(frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: view.frame.height - searchBar.frame.height), collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - searchBar.frame.height), collectionViewLayout: layout)
         
         collectionView.dataSource = self
         collectionView.delegate = self
