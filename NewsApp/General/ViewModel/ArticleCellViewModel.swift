@@ -20,18 +20,20 @@ final class ArticleCellViewModel: TableCollectionViewProtocol {
         publishedAt = article.publishedAt
         urlToImage = article.urlToImage ?? ""
         
-        if let formateDate = formateDate(dateString: self.publishedAt) {
+        if let formateDate = Date().formateDate(dateString: self.publishedAt) {
             self.publishedAt = formateDate
         }
     }
-    
-    private func formateDate(dateString: String) -> String? {
+}
+
+extension Date {
+    func formateDate(dateString: String) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         guard let date = dateFormatter.date(from: dateString) else { return nil }
         
         dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-//        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.locale = Locale(identifier: "ru_RU")
         return dateFormatter.string(from: date)
     }
 }
