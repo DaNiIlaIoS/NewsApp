@@ -25,6 +25,7 @@ final class GeneralViewController: UIViewController {
         //      layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - searchBar.frame.height), collectionViewLayout: layout)
+        collectionView.addGestureRecognizer(recognize)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -35,6 +36,7 @@ final class GeneralViewController: UIViewController {
     // MARK: - Properties
     private var viewModel: NewsListViewModelProtocol
     private var isKeyboardVisible = false
+    private lazy var recognize = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
     
     // MARK: - Life Cycle
     init(viewModel: NewsListViewModelProtocol) {
@@ -54,7 +56,6 @@ final class GeneralViewController: UIViewController {
         collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
         
         viewModel.loadData(searchText: nil)
-        hideKeyboardWhenTappedAround()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,12 +169,6 @@ extension GeneralViewController: UISearchBarDelegate {
 // MARK: - Keyboard Handling
 extension GeneralViewController {
     
-    private func hideKeyboardWhenTappedAround() {
-        let recognize = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        recognize.cancelsTouchesInView = false
-        collectionView.addGestureRecognizer(recognize)
-    }
-    
     @objc private func hideKeyboard() {
         view.endEditing(true)
     }
@@ -186,11 +181,15 @@ extension GeneralViewController {
     
     @objc func keyboardWillShow() {
         isKeyboardVisible = true
+        recognize.cancelsTouchesInView = true
         print("Клавиатура видна")
     }
     
     @objc func keyboardWillHide() {
         isKeyboardVisible = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            self?.recognize.cancelsTouchesInView = false
+        }
         print("Клавиатура скрыта")
     }
     
