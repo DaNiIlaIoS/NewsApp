@@ -15,21 +15,23 @@ enum Theme: String {
 
 final class APIManager {
     private static let apiKey = "e30d6cfafc85469eb6f14e2f35443c88"
-    private static let baseUrl = "https://newsapi.org/v2/"
-    private static let path = "top-headlines"
+    private static let baseUrl = "https://newsapi.org"
     
     // MARK: - Create url path and make request
     static func getNews(theme: Theme,
                         page: Int,
                         searchText: String?,
                         completion: @escaping (Result<[ArticleResponseObject], Error>) -> ()) {
-        var searchParameter = ""
-        if let searchText = searchText {
-            searchParameter = "&q=\(searchText)"
-        }
-        let stringUrl = baseUrl + path + "?category=\(theme.rawValue)&language=en&page=\(page)" + searchParameter + "&apiKey=\(apiKey)"
         
-        guard let url = URL(string: stringUrl) else { return }
+        var urlComponents = URLComponents(string: baseUrl)
+        urlComponents?.path = "/v2/top-headlines"
+        urlComponents?.queryItems = [URLQueryItem(name: "category", value: theme.rawValue),
+                                     URLQueryItem(name: "language", value: "en"),
+                                     URLQueryItem(name: "page", value: "\(page)"),
+                                     URLQueryItem(name: "q", value: searchText),
+                                     URLQueryItem(name: "apiKey", value: "\(apiKey)")]
+        
+        guard let url = urlComponents?.url else { return }
         
         let session = URLSession.shared.dataTask(with: url) { data, _, error in
             handleResponse(data: data, error: error, completion: completion)

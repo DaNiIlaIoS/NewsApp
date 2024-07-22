@@ -55,6 +55,8 @@ final class GeneralViewController: UIViewController {
         
         collectionView.register(GeneralCollectionViewCell.self, forCellWithReuseIdentifier: "GeneralCollectionViewCell")
         
+        recognize.cancelsTouchesInView = false
+        
         viewModel.loadData(searchText: nil)
     }
     
