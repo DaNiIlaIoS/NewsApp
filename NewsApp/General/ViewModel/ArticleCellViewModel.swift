@@ -29,11 +29,9 @@ final class ArticleCellViewModel: TableCollectionViewProtocol {
 extension Date {
     func formateDate(dateString: String) -> String? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        guard let date = dateFormatter.date(from: dateString) else { return nil }
-        
         dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
         dateFormatter.locale = Locale(identifier: "ru_RU")
-        return dateFormatter.string(from: date)
+        
+        return dateFormatter.string(from: self)
     }
 }
