@@ -15,6 +15,7 @@ final class TechnologyViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
+        layout.itemSize = view.frame.size
         layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -80,8 +81,7 @@ final class TechnologyViewController: UIViewController {
     
     private func setupConstraints() {
         collectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(5)
-            make.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
@@ -116,11 +116,5 @@ extension TechnologyViewController: UICollectionViewDelegate {
         if indexPath.row == (viewModel.sections[indexPath.section].items.count - 12) {
             viewModel.loadData(searchText: nil)
         }
-    }
-}
-
-extension TechnologyViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
 }
