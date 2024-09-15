@@ -32,7 +32,7 @@ final class APIManager {
                                      URLQueryItem(name: "apiKey", value: "\(apiKey)")]
         
         guard let url = urlComponents?.url else { return }
-        
+        print(url)
         let session = URLSession.shared.dataTask(with: url) { data, _, error in
             handleResponse(data: data, error: error, completion: completion)
         }
